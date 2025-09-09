@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.23">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>第 2 章：统计学习 – 统计学习笔记</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../body/ch3.html" rel="next">
+<link href="../index.html" rel="prev">
+<link href="../images/book-logo.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9e36baa7e694e2930998a7c8ca087875.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a06ae411f815bd19666d81dccd910b1f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../body/ch2.html"><strong>统计学习基础</strong></a></li><li class="breadcrumb-item"><a href="../body/ch2.html"><span class="chapter-title">第 2 章：统计学习</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="https://your-username.github.io/your-book-name/" class="sidebar-logo-link">
+      <img src="../images/book-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/book-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">统计学习笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/your-username/your-book-name" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">首页</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>统计学习基础</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../body/ch2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">第 2 章：统计学习</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../body/ch3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第3章 线性回归</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#什么是统计学习" id="toc-什么是统计学习" class="nav-link active" data-scroll-target="#什么是统计学习">2.1 什么是统计学习？</a>
+  <ul class="collapse">
+  <li><a href="#为什么要估计-f" id="toc-为什么要估计-f" class="nav-link" data-scroll-target="#为什么要估计-f">为什么要估计 f？</a></li>
+  <li><a href="#我们如何估计-f" id="toc-我们如何估计-f" class="nav-link" data-scroll-target="#我们如何估计-f">我们如何估计 f？</a></li>
+  <li><a href="#其他核心概念" id="toc-其他核心概念" class="nav-link" data-scroll-target="#其他核心概念">其他核心概念</a></li>
+  </ul></li>
+  <li><a href="#评估模型准确性" id="toc-评估模型准确性" class="nav-link" data-scroll-target="#评估模型准确性">2.2 评估模型准确性</a>
+  <ul class="collapse">
+  <li><a href="#衡量拟合质量" id="toc-衡量拟合质量" class="nav-link" data-scroll-target="#衡量拟合质量">衡量拟合质量</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../body/ch2.html"><strong>统计学习基础</strong></a></li><li class="breadcrumb-item"><a href="../body/ch2.html"><span class="chapter-title">第 2 章：统计学习</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">第 2 章：统计学习</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="什么是统计学习" class="level2">
+<h2 class="anchored" data-anchor-id="什么是统计学习">2.1 什么是统计学习？</h2>
+<p>统计学习是围绕着使用<strong>输入变量</strong> (X) 来预测或推断<strong>输出变量</strong> (Y) 的一套方法。</p>
+<p>它们之间的关系可以用以下通用公式表示：</p>
+<p><span class="math display">\[Y = f(X) + \epsilon\]</span></p>
+<ul>
+<li><strong>Y</strong>: 输出变量，也称为响应变量或因变量。</li>
+<li><strong>X</strong>: 输入变量 <span class="math inline">\((X_1, X_2, ..., X_p)\)</span>，也称为预测变量、自变量或特征。</li>
+<li><strong>f</strong>: 一个未知的固定函数，代表 X 提供关于 Y 的系统性信息。统计学习的核心目标就是估计 f。</li>
+<li><strong>ϵ</strong>: 一个随机误差项，与 X 无关且平均值为零。它代表了所有无法由 X 解释的变异，是不可约的。</li>
+</ul>
+<hr>
+<section id="为什么要估计-f" class="level3">
+<h3 class="anchored" data-anchor-id="为什么要估计-f">为什么要估计 f？</h3>
+<p>估计 f 主要有两个目的：<strong>预测</strong>和<strong>推断</strong>。</p>
+<section id="预测-prediction" class="level4">
+<h4 class="anchored" data-anchor-id="预测-prediction">1. 预测 (Prediction)</h4>
+<ul>
+<li><strong>目标</strong>: 当输入 X 已知时，预测输出 Y 的值。</li>
+<li><strong>方法</strong>: 使用 f 的估计值 <span class="math inline">\(\hat{f}\)</span> 来进行预测，即 <span class="math inline">\(\hat{Y} = \hat{f}(X)\)</span>。</li>
+<li><strong>误差</strong>: 预测的准确性取决于两种误差：
+<ul>
+<li><strong>可约误差 (Reducible Error)</strong>: 由于我们的估计 <span class="math inline">\(\hat{f}\)</span> 不完美而引入的误差。我们可以通过选择更好的统计学习方法来减小这种误差。</li>
+<li><strong>不可约误差 (Irreducible Error)</strong>: 来自于随机项 <span class="math inline">\(\epsilon\)</span> 的误差。无论我们对 f 的估计多么好，都无法减少这种误差。</li>
+</ul></li>
+<li><strong>误差分解</strong>: 预测值与真实值之间的期望平方差可以分解为： <span class="math inline">\(E(Y-\hat{Y})^{2} = \underbrace{[f(X)-\hat{f}(X)]^{2}}_{\text{可约}} + \underbrace{Var(\epsilon)}_{\text{不可约}}\)</span></li>
+</ul>
+</section>
+<section id="推断-inference" class="level4">
+<h4 class="anchored" data-anchor-id="推断-inference">2. 推断 (Inference)</h4>
+<ul>
+<li><strong>目标</strong>: 理解 X 和 Y 之间的关系，而不仅仅是进行预测。</li>
+<li><strong>关键问题</strong>：
+<ul>
+<li>哪些预测变量与响应变量显著相关？</li>
+<li>每个预测变量与响应变量之间的关系是什么（例如，正相关或负相关）？</li>
+<li>这种关系是线性的还是更复杂的？</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="我们如何估计-f" class="level3">
+<h3 class="anchored" data-anchor-id="我们如何估计-f">我们如何估计 f？</h3>
+<p>我们使用<strong>训练数据</strong> <span class="math inline">\(\{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}\)</span> 来让我们的算法学习如何估计 f。方法主要分为两类：</p>
+<section id="参数方法-parametric-methods" class="level4">
+<h4 class="anchored" data-anchor-id="参数方法-parametric-methods">1. 参数方法 (Parametric Methods)</h4>
+<ul>
+<li><strong>流程</strong>: 这是一种两步法。
+<ol type="1">
+<li><strong>假设模型形式</strong>: 首先，对 f 的函数形式做一个假设。例如，假设 f 是一个线性模型：<span class="math inline">\(f(X) = \beta_{0} + \beta_{1}X_{1} + \dots + \beta_{p}X_{p}\)</span>。</li>
+<li><strong>拟合模型</strong>: 使用训练数据来估算模型中的参数（例如，<span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>）。</li>
+</ol></li>
+<li><strong>优点</strong>: 将估算一个任意函数 f 的复杂问题简化为估算一组参数的问题。</li>
+<li><strong>缺点</strong>: 选择的模型形式可能与真实的 f 不符，导致估算效果差。更复杂、更灵活的模型可能导致<strong>过拟合 (overfitting)</strong>，即模型过度地学习了训练数据中的噪声。</li>
+</ul>
+</section>
+<section id="非参数方法-non-parametric-methods" class="level4">
+<h4 class="anchored" data-anchor-id="非参数方法-non-parametric-methods">2. 非参数方法 (Non-Parametric Methods)</h4>
+<ul>
+<li><strong>流程</strong>: 不对 f 的函数形式做明确假设，而是寻求一个能尽可能贴近数据点的估算。</li>
+<li><strong>优点</strong>: 能够拟合更广泛形状的 f，避免了因模型形式选择错误而带来的风险。</li>
+<li><strong>缺点</strong>: 需要非常大量的观测数据才能得到准确的估算。也容易发生过拟合。</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="其他核心概念" class="level3">
+<h3 class="anchored" data-anchor-id="其他核心概念">其他核心概念</h3>
+<section id="预测准确性与模型可解释性的权衡" class="level4">
+<h4 class="anchored" data-anchor-id="预测准确性与模型可解释性的权衡">预测准确性与模型可解释性的权衡</h4>
+<ul>
+<li>一般而言，一个方法的灵活性越高，其可解释性就越低。</li>
+<li><strong>不灵活的模型</strong> (如线性回归) 可解释性很强，但可能不够准确。</li>
+<li><strong>高度灵活的模型</strong> (如支持向量机、深度学习) 可能非常准确，但通常难以解释，像一个“黑箱”。</li>
+<li>选择哪种方法取决于我们的目标是<strong>推断</strong>还是<strong>预测</strong>。</li>
+</ul>
+</section>
+<section id="监督学习-vs.-无监督学习" class="level4">
+<h4 class="anchored" data-anchor-id="监督学习-vs.-无监督学习">监督学习 vs.&nbsp;无监督学习</h4>
+<ul>
+<li><strong>监督学习 (Supervised Learning)</strong>: 每个观测数据 <span class="math inline">\(x_i\)</span> 都有一个与之相关的响应变量 <span class="math inline">\(y_i\)</span>。目标是预测或推断。</li>
+<li><strong>无监督学习 (Unsupervised Learning)</strong>: 每个观测数据 <span class="math inline">\(x_i\)</span> 没有相关的响应变量 <span class="math inline">\(y_i\)</span>。目标是发现数据中的结构，例如<strong>聚类分析 (cluster analysis)</strong>。</li>
+</ul>
+</section>
+<section id="回归-vs.-分类" class="level4">
+<h4 class="anchored" data-anchor-id="回归-vs.-分类">回归 vs.&nbsp;分类</h4>
+<ul>
+<li><strong>回归问题 (Regression)</strong>: 响应变量 Y 是定量的（数值型）。</li>
+<li><strong>分类问题 (Classification)</strong>: 响应变量 Y 是定性的（类别型）。</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="评估模型准确性" class="level2">
+<h2 class="anchored" data-anchor-id="评估模型准确性">2.2 评估模型准确性</h2>
+<p>在统计学中没有“免费的午餐”：没有任何一种方法在所有可能的数据集上都优于其他所有方法。因此，评估模型性能至关重要。</p>
+<section id="衡量拟合质量" class="level3">
+<h3 class="anchored" data-anchor-id="衡量拟合质量">衡量拟合质量</h3>
+<section id="回归设定" class="level4">
+<h4 class="anchored" data-anchor-id="回归设定">1. 回归设定</h4>
+<ul>
+<li><strong>均方误差 (Mean Squared Error, MSE)</strong>: 是最常用的衡量标准，计算公式为： <span class="math display">\[MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{f}(x_i))^2\]</span></li>
+<li><strong>训练 MSE vs.&nbsp;测试 MSE</strong>: 我们真正关心的是模型在未见过的<strong>测试数据</strong>上的表现（测试 MSE），而不是在用于训练模型的<strong>训练数据</strong>上的表现（训练 MSE）。</li>
+<li><strong>过拟合 (Overfitting)</strong>: 当一个模型在训练数据上得到很低的 MSE，但在测试数据上得到很高的 MSE 时，我们就称之为过拟合。这是因为模型学习了训练数据中的随机噪声，而不是真实的潜在规律。</li>
+<li><strong>测试 MSE 的 U 形曲线</strong>: 随着模型灵活性的增加，训练 MSE 会持续下降，但测试 MSE 通常会先下降后上升，呈现 U 形。</li>
+</ul>
+</section>
+<section id="偏差-方差权衡-the-bias-variance-trade-off" class="level4">
+<h4 class="anchored" data-anchor-id="偏差-方差权衡-the-bias-variance-trade-off">2. 偏差-方差权衡 (The Bias-Variance Trade-Off)</h4>
+<p>测试 MSE 的 U 形曲线是<strong>偏差 (Bias)</strong> 和<strong>方差 (Variance)</strong> 这两个相互竞争的属性导致的。预期测试 MSE 可以分解为：</p>
+<p><span class="math display">\[E(y_0 - \hat{f}(x_0))^2 = Var(\hat{f}(x_0)) + [Bias(\hat{f}(x_0))]^2 + Var(\epsilon)\]</span></p>
+<ul>
+<li><strong>方差 (Variance)</strong>: 指的是如果我们用一个不同的训练数据集来估算 f，<span class="math inline">\(\hat{f}\)</span> 会改变多少。更灵活的方法通常有更高的方差。</li>
+<li><strong>偏差 (Bias)</strong>: 指的是由于用一个简单的模型来近似现实生活中的复杂问题而引入的误差。更灵活的方法通常有更低的偏差。</li>
+<li><strong>权衡</strong>: 增加模型灵活性会<strong>降低偏差</strong>但<strong>增加方差</strong>。一个好的模型需要在二者之间取得平衡，以达到最低的总测试误差。</li>
+</ul>
+</section>
+<section id="分类设定" class="level4">
+<h4 class="anchored" data-anchor-id="分类设定">3. 分类设定</h4>
+<ul>
+<li><strong>错误率 (Error Rate)</strong>: 是分类问题中量化准确性的最常用方法，即模型预测错误的观测比例。 <span class="math display">\[ \frac{1}{n}\sum_{i=1}^{n}I(y_i \neq \hat{y}_i) \]</span></li>
+<li><strong>贝叶斯分类器 (Bayes Classifier)</strong>: 这是一个理论上最优的分类器，它将每个观测值分配给条件概率 <span class="math inline">\(Pr(Y=j|X=x_0)\)</span> 最大的类别。它能达到的最低测试错误率称为<strong>贝叶斯错误率</strong>。</li>
+<li><strong>K-近邻 (K-Nearest Neighbors, KNN)</strong>: 一种简单而有效的分类方法，它通过一个观测点 <span class="math inline">\(x_0\)</span> 的 K 个最近邻居来估算其类别概率。
+<ul>
+<li><strong>K 的选择</strong>: K 的选择对分类器的性能有巨大影响。小的 K 值会产生灵活性高、方差大、偏差小的模型。大的 K 值则相反，灵活性低、方差小、偏差大。</li>
+<li><strong>测试错误率的 U 形曲线</strong>: 与回归设定类似，随着灵活性 (1/K) 的增加，测试错误率也呈现 U 形。</li>
+</ul></li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/your-username\.github\.io\/your-book-name\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="首页">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">首页</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../body/ch3.html" class="pagination-link" aria-label="第3章 线性回归">
+        <span class="nav-page-text"><span class="chapter-title">第3章 线性回归</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

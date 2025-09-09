@@ -1,0 +1,54 @@
+project:
+  type: book
+  output-dir: docs  # 输出目录, 生成的 HTML 文件会放在 docs 目录下
+
+book:
+  title: "统计学习笔记"
+  reader-mode: true 
+  author: "学习者"
+  date: today
+  date-format: iso
+  
+  sidebar:    # 侧边栏配置
+    title: "统计学习笔记"
+    logo: images/book-logo.png
+    logo-href: https://your-username.github.io/your-book-name/  # 修改为你的网址
+    style: floating
+    search: true
+    tools:
+      - icon: github
+        href: https://github.com/your-username/your-book-name  # 修改为你的仓库地址
+
+  favicon: images/book-logo.png
+  site-url: https://your-username.github.io/your-book-name/  # 修改为你的网址
+  editor: source
+
+#----------------------- Chapters ---------------
+  chapters:
+    - index.qmd
+    
+    - part: "**统计学习基础**"
+      chapters: 
+        - body/ch2.md
+        - body/ch3.md
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    linestretch: 1.6
+    fontsize: 11.5pt
+    number-sections: false
+    link-external-newwindow: true
+    highlight: true
+    highlight-style: atom-one
+    code-fold: false
+    code-line-numbers: false
+    code-overflow: wrap
+    css: styles.css
+    callout-appearance: default
+    md-extensions:
+      - callout
+
+editor: visual

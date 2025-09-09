@@ -1,0 +1,26 @@
+{
+  "index.qmd": {
+    "index.html": "62d238e3"
+  },
+  "body/chapter1.md": {
+    "chapter1.html": "9c1bea26"
+  },
+  "body/chapter2.md": {
+    "chapter2.html": "c0e37c56"
+  },
+  "body/chapter3.md": {
+    "chapter3.html": "1a131161"
+  },
+  "body/chapter4.ipynb": {
+    "chapter4.html": "c6f70f3f"
+  },
+  "body/appendix.md": {
+    "appendix.html": "99765e25"
+  },
+  "body/ch2.md": {
+    "ch2.html": "628aabd7"
+  },
+  "body/ch3.md": {
+    "ch3.html": "83c65848"
+  }
+}

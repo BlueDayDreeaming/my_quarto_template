@@ -1,0 +1,120 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "统计学习笔记",
+    "section": "",
+    "text": "欢迎来到统计学习笔记\n这是一本关于统计学习方法的学习笔记，包含了统计学习的基础理论和线性回归等重要内容。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>首页</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#内容概述",
+    "href": "index.html#内容概述",
+    "title": "统计学习笔记",
+    "section": "内容概述",
+    "text": "内容概述\n\n第2章：统计学习笔记 - 介绍统计学习的基本概念和方法\n第3章：线性回归 - 详细讲解线性回归模型及其应用",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>首页</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#快速开始",
+    "href": "index.html#快速开始",
+    "title": "统计学习笔记",
+    "section": "快速开始",
+    "text": "快速开始\n点击左侧导航栏开始阅读各章节内容。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>首页</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch2.html",
+    "href": "body/ch2.html",
+    "title": "第 2 章：统计学习",
+    "section": "",
+    "text": "2.1 什么是统计学习？\n统计学习是围绕着使用输入变量 (X) 来预测或推断输出变量 (Y) 的一套方法。\n它们之间的关系可以用以下通用公式表示：\n\\[Y = f(X) + \\epsilon\\]",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>第 2 章：统计学习</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch2.html#什么是统计学习",
+    "href": "body/ch2.html#什么是统计学习",
+    "title": "第 2 章：统计学习",
+    "section": "",
+    "text": "Y: 输出变量，也称为响应变量或因变量。\nX: 输入变量 \\((X_1, X_2, ..., X_p)\\)，也称为预测变量、自变量或特征。\nf: 一个未知的固定函数，代表 X 提供关于 Y 的系统性信息。统计学习的核心目标就是估计 f。\nϵ: 一个随机误差项，与 X 无关且平均值为零。它代表了所有无法由 X 解释的变异，是不可约的。\n\n\n\n为什么要估计 f？\n估计 f 主要有两个目的：预测和推断。\n\n1. 预测 (Prediction)\n\n目标: 当输入 X 已知时，预测输出 Y 的值。\n方法: 使用 f 的估计值 \\(\\hat{f}\\) 来进行预测，即 \\(\\hat{Y} = \\hat{f}(X)\\)。\n误差: 预测的准确性取决于两种误差：\n\n可约误差 (Reducible Error): 由于我们的估计 \\(\\hat{f}\\) 不完美而引入的误差。我们可以通过选择更好的统计学习方法来减小这种误差。\n不可约误差 (Irreducible Error): 来自于随机项 \\(\\epsilon\\) 的误差。无论我们对 f 的估计多么好，都无法减少这种误差。\n\n误差分解: 预测值与真实值之间的期望平方差可以分解为： \\(E(Y-\\hat{Y})^{2} = \\underbrace{[f(X)-\\hat{f}(X)]^{2}}_{\\text{可约}} + \\underbrace{Var(\\epsilon)}_{\\text{不可约}}\\)\n\n\n\n2. 推断 (Inference)\n\n目标: 理解 X 和 Y 之间的关系，而不仅仅是进行预测。\n关键问题：\n\n哪些预测变量与响应变量显著相关？\n每个预测变量与响应变量之间的关系是什么（例如，正相关或负相关）？\n这种关系是线性的还是更复杂的？\n\n\n\n\n\n\n我们如何估计 f？\n我们使用训练数据 \\(\\{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\\}\\) 来让我们的算法学习如何估计 f。方法主要分为两类：\n\n1. 参数方法 (Parametric Methods)\n\n流程: 这是一种两步法。\n\n假设模型形式: 首先，对 f 的函数形式做一个假设。例如，假设 f 是一个线性模型：\\(f(X) = \\beta_{0} + \\beta_{1}X_{1} + \\dots + \\beta_{p}X_{p}\\)。\n拟合模型: 使用训练数据来估算模型中的参数（例如，\\(\\beta_0, \\beta_1, \\dots, \\beta_p\\)）。\n\n优点: 将估算一个任意函数 f 的复杂问题简化为估算一组参数的问题。\n缺点: 选择的模型形式可能与真实的 f 不符，导致估算效果差。更复杂、更灵活的模型可能导致过拟合 (overfitting)，即模型过度地学习了训练数据中的噪声。\n\n\n\n2. 非参数方法 (Non-Parametric Methods)\n\n流程: 不对 f 的函数形式做明确假设，而是寻求一个能尽可能贴近数据点的估算。\n优点: 能够拟合更广泛形状的 f，避免了因模型形式选择错误而带来的风险。\n缺点: 需要非常大量的观测数据才能得到准确的估算。也容易发生过拟合。\n\n\n\n\n\n其他核心概念\n\n预测准确性与模型可解释性的权衡\n\n一般而言，一个方法的灵活性越高，其可解释性就越低。\n不灵活的模型 (如线性回归) 可解释性很强，但可能不够准确。\n高度灵活的模型 (如支持向量机、深度学习) 可能非常准确，但通常难以解释，像一个“黑箱”。\n选择哪种方法取决于我们的目标是推断还是预测。\n\n\n\n监督学习 vs. 无监督学习\n\n监督学习 (Supervised Learning): 每个观测数据 \\(x_i\\) 都有一个与之相关的响应变量 \\(y_i\\)。目标是预测或推断。\n无监督学习 (Unsupervised Learning): 每个观测数据 \\(x_i\\) 没有相关的响应变量 \\(y_i\\)。目标是发现数据中的结构，例如聚类分析 (cluster analysis)。\n\n\n\n回归 vs. 分类\n\n回归问题 (Regression): 响应变量 Y 是定量的（数值型）。\n分类问题 (Classification): 响应变量 Y 是定性的（类别型）。",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>第 2 章：统计学习</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch2.html#评估模型准确性",
+    "href": "body/ch2.html#评估模型准确性",
+    "title": "第 2 章：统计学习",
+    "section": "2.2 评估模型准确性",
+    "text": "2.2 评估模型准确性\n在统计学中没有“免费的午餐”：没有任何一种方法在所有可能的数据集上都优于其他所有方法。因此，评估模型性能至关重要。\n\n衡量拟合质量\n\n1. 回归设定\n\n均方误差 (Mean Squared Error, MSE): 是最常用的衡量标准，计算公式为： \\[MSE = \\frac{1}{n}\\sum_{i=1}^{n}(y_i - \\hat{f}(x_i))^2\\]\n训练 MSE vs. 测试 MSE: 我们真正关心的是模型在未见过的测试数据上的表现（测试 MSE），而不是在用于训练模型的训练数据上的表现（训练 MSE）。\n过拟合 (Overfitting): 当一个模型在训练数据上得到很低的 MSE，但在测试数据上得到很高的 MSE 时，我们就称之为过拟合。这是因为模型学习了训练数据中的随机噪声，而不是真实的潜在规律。\n测试 MSE 的 U 形曲线: 随着模型灵活性的增加，训练 MSE 会持续下降，但测试 MSE 通常会先下降后上升，呈现 U 形。\n\n\n\n2. 偏差-方差权衡 (The Bias-Variance Trade-Off)\n测试 MSE 的 U 形曲线是偏差 (Bias) 和方差 (Variance) 这两个相互竞争的属性导致的。预期测试 MSE 可以分解为：\n\\[E(y_0 - \\hat{f}(x_0))^2 = Var(\\hat{f}(x_0)) + [Bias(\\hat{f}(x_0))]^2 + Var(\\epsilon)\\]\n\n方差 (Variance): 指的是如果我们用一个不同的训练数据集来估算 f，\\(\\hat{f}\\) 会改变多少。更灵活的方法通常有更高的方差。\n偏差 (Bias): 指的是由于用一个简单的模型来近似现实生活中的复杂问题而引入的误差。更灵活的方法通常有更低的偏差。\n权衡: 增加模型灵活性会降低偏差但增加方差。一个好的模型需要在二者之间取得平衡，以达到最低的总测试误差。\n\n\n\n3. 分类设定\n\n错误率 (Error Rate): 是分类问题中量化准确性的最常用方法，即模型预测错误的观测比例。 \\[ \\frac{1}{n}\\sum_{i=1}^{n}I(y_i \\neq \\hat{y}_i) \\]\n贝叶斯分类器 (Bayes Classifier): 这是一个理论上最优的分类器，它将每个观测值分配给条件概率 \\(Pr(Y=j|X=x_0)\\) 最大的类别。它能达到的最低测试错误率称为贝叶斯错误率。\nK-近邻 (K-Nearest Neighbors, KNN): 一种简单而有效的分类方法，它通过一个观测点 \\(x_0\\) 的 K 个最近邻居来估算其类别概率。\n\nK 的选择: K 的选择对分类器的性能有巨大影响。小的 K 值会产生灵活性高、方差大、偏差小的模型。大的 K 值则相反，灵活性低、方差小、偏差大。\n测试错误率的 U 形曲线: 与回归设定类似，随着灵活性 (1/K) 的增加，测试错误率也呈现 U 形。",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>第 2 章：统计学习</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch3.html",
+    "href": "body/ch3.html",
+    "title": "第3章 线性回归",
+    "section": "",
+    "text": "1. 线性回归简介\n线性回归是一种用于预测定量响应变量的监督学习方法。它历史悠久、应用广泛，并且是理解许多高级统计学习方法的基础。\n本章旨在回答以下核心问题： * 广告投入与产品销量之间是否存在关系？ * 这种关系的强度如何？ * 哪些广告媒体（如电视、广播、报纸）对销量有显著影响？ * 如何准确预测未来的销量？ * 预测变量与响应变量之间的关系是线性的吗？ * 不同广告媒体之间是否存在协同效应（即交互作用）？",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第3章 线性回归</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch3.html#简单线性回归",
+    "href": "body/ch3.html#简单线性回归",
+    "title": "第3章 线性回归",
+    "section": "2. 简单线性回归",
+    "text": "2. 简单线性回归\n简单线性回归使用单个预测变量 X 来预测定量响应变量 Y。\n\n模型\n其数学模型假设 X 和 Y 之间存在近似的线性关系： \\[ Y \\approx \\beta_0 + \\beta_1 X \\] - \\(\\beta_0\\)：截距 (intercept) - \\(\\beta_1\\)：斜率 (slope) - \\(\\beta_0\\) 和 \\(\\beta_1\\) 统称为模型系数 (model coefficients) 或参数 (parameters)。\n\n\n系数估计\n最常用的估计方法是最小二乘法 (least squares)。该方法旨在最小化残差平方和 (Residual Sum of Squares, RSS)。 \\[ RSS = \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2 = \\sum_{i=1}^{n} (y_i - (\\hat{\\beta}_0 + \\hat{\\beta}_1 x_i))^2 \\] 通过微积分可以求得使 RSS 最小化的估计值： \\[ \\hat{\\beta}_1 = \\frac{\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y})}{\\sum_{i=1}^{n}(x_i - \\bar{x})^2} \\] \\[ \\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1 \\bar{x} \\]\n\n\n评估系数的准确性\n\n标准误 (Standard Error, SE)：衡量系数估计值 \\(\\hat{\\beta}\\) 的不确定性。SE 越小，估计越准确。\n置信区间 (Confidence Intervals)：提供一个参数真实值的可能范围。例如，一个95%的置信区间意味着该区间有95%的概率包含参数的真实值。\n假设检验 (Hypothesis Testing)：\n\n原假设 \\(H_0\\)：X 和 Y 之间没有关系，即 \\(\\beta_1 = 0\\)。\n备择假设 \\(H_a\\)：X 和 Y 之间存在关系，即 \\(\\beta_1 \\neq 0\\)。\nt-统计量：衡量 \\(\\hat{\\beta}_1\\) 偏离0的标准差倍数。\\(t = (\\hat{\\beta}_1 - 0) / SE(\\hat{\\beta}_1)\\)。\np-值：在 \\(H_0\\) 为真的情况下，观测到当前或更极端结果的概率。p值越小，拒绝 \\(H_0\\) 的证据越强。\n\n\n\n\n评估模型的准确性\n\n残差标准误 (Residual Standard Error, RSE)：衡量模型对数据拟合的缺失程度，代表响应值偏离真实回归线的平均距离。\nR² 统计量：衡量响应变量 Y 的总变异中，能够被预测变量 X 解释的比例。其值介于0和1之间，越接近1表示模型解释能力越强。在简单线性回归中，\\(R^2 = r^2\\) (相关系数的平方)。",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第3章 线性回归</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch3.html#多元线性回归",
+    "href": "body/ch3.html#多元线性回归",
+    "title": "第3章 线性回归",
+    "section": "3. 多元线性回归",
+    "text": "3. 多元线性回归\n多元线性回归使用多个预测变量 (\\(X_1, X_2, \\dots, X_p\\)) 来预测 Y。\n\n模型\n\\[ Y = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\dots + \\beta_p X_p + \\epsilon \\] - \\(\\beta_j\\) 的解释是：在保持其他所有预测变量不变的情况下，\\(X_j\\) 每增加一个单位，Y 的平均变化量。\n\n\n核心问题\n\n是否存在关系？\n\n使用 F-统计量 来检验所有预测变量的系数是否同时为零 (\\(H_0: \\beta_1 = \\beta_2 = \\dots = \\beta_p = 0\\))。F-统计量远大于1且对应的p值很小，则表明至少有一个预测变量与响应相关。\n\n哪些变量是重要的？(变量选择)\n\n由于检查所有 \\(2^p\\) 个可能的模型不现实，通常采用自动化方法：\n\n前向选择 (Forward selection)：从空模型开始，逐个添加最显著的变量。\n后向选择 (Backward selection)：从包含所有变量的模型开始，逐个移除最不显著的变量。\n混合选择 (Mixed selection)：结合以上两种方法。\n\n\n模型拟合得如何？\n\n同样使用 RSE 和 R²。但需注意，向模型中添加变量总会使训练集上的 R² 增加，即使该变量与响应无关。\n\n预测的准确性\n\n置信区间：用于量化平均响应的不确定性。\n预测区间：用于量化单个响应的不确定性。预测区间总是比置信区间宽，因为它包含了不可约误差 \\(\\epsilon\\)。",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第3章 线性回归</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch3.html#回归模型的其他注意事项",
+    "href": "body/ch3.html#回归模型的其他注意事项",
+    "title": "第3章 线性回归",
+    "section": "4. 回归模型的其他注意事项",
+    "text": "4. 回归模型的其他注意事项\n\n定性预测变量\n\n对于只有两个水平的定性变量，可以创建一个 (0, 1) 虚拟变量 (dummy variable)。\n对于超过两个水平的定性变量，需要创建 k-1 个虚拟变量，其中 k 是水平的数量。未分配虚拟变量的水平称为基线 (baseline)。\n\n\n\n线性模型的扩展\n\n交互作用 (Interaction Terms)\n\n放宽可加性假设 (即预测变量的影响是独立的)。\n通过在模型中添加两个预测变量的乘积项 (\\(X_1 \\times X_2\\)) 来实现。\n一个显著的交互项表明，一个预测变量对响应的影响依赖于另一个预测变量的水平。这在市场营销中被称为协同效应 (synergy effect)。\n\n非线性关系 (Polynomial Regression)\n\n放宽线性假设。\n通过在模型中添加预测变量的多项式项 (如 \\(X^2, X^3\\)) 来拟合曲线关系。\n这本质上仍然是一个线性模型，因为它对变换后的变量是线性的。\n\n\n\n\n潜在问题\n\n非线性：通过残差图 (residuals vs. fitted values) 发现。若残差图呈现明显模式 (如U形)，则表明存在非线性。\n误差项相关：常见于时间序列数据。这会导致标准误被低估，使得置信区间过窄，p值过小。\n异方差性 (Heteroscedasticity)：误差项方差非恒定。在残差图中表现为漏斗形状。可通过对响应变量进行变换 (如 log(Y)) 来解决。\n异常值 (Outliers)：响应值 \\(y_i\\) 远离模型预测值的点。\n高杠杆点 (High-Leverage Points)：预测值 \\(x_i\\) 不寻常的点。这些点对回归线有很大影响。\n共线性 (Collinearity)：两个或多个预测变量高度相关。\n\n这会使系数估计变得不稳定，标准误增大。\n可通过方差膨胀因子 (Variance Inflation Factor, VIF) 检测。VIF &gt; 5 或 10 表明存在问题。\n解决方法：移除一个相关变量或将它们组合成一个新变量。",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第3章 线性回归</span>"
+    ]
+  },
+  {
+    "objectID": "body/ch3.html#线性回归与-k-最近邻-knn-的比较",
+    "href": "body/ch3.html#线性回归与-k-最近邻-knn-的比较",
+    "title": "第3章 线性回归",
+    "section": "5. 线性回归与 K-最近邻 (KNN) 的比较",
+    "text": "5. 线性回归与 K-最近邻 (KNN) 的比较\n\n\n\n\n\n\n\n\n特性\n线性回归\nK-最近邻 (KNN)\n\n\n\n\n方法类型\n参数化 (Parametric)：对函数形式 (线性) 做出假设。\n非参数化 (Non-parametric)：不对函数形式做假设，更灵活。\n\n\n适用场景\n当真实关系接近线性时，表现优异。\n当真实关系为非线性时，可能表现更好。\n\n\n可解释性\n高。模型由几个系数定义，易于理解。\n低。没有简单的模型或系数可供解释。\n\n\n维度影响\n在高维情况下表现相对稳健。\n在高维情况下性能急剧下降 (即维度灾难)。\n\n\n\n结论： - 如果预测准确性是首要目标，且真实关系可能是非线性的，KNN值得考虑。 - 如果可解释性很重要，或者预测变量维度很高而样本量不大，线性回归通常是更好的选择。",
+    "crumbs": [
+      "**统计学习基础**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第3章 线性回归</span>"
+    ]
+  }
+]
