@@ -31,6 +31,8 @@ book:
       chapters: 
         - body/ch2.md
         - body/ch3.md
+        - body/ch4.md
+        - body/ch5.md
 
 format:
   html:

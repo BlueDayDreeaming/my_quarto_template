@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>第3章 线性回归 – 统计学习笔记</title>
+<title>第5章 重抽样方法 (Resampling Methods) – 统计学习笔记</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../body/ch4.html" rel="next">
-<link href="../body/ch2.html" rel="prev">
+<link href="../body/ch4.html" rel="prev">
 <link href="../images/book-logo.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -114,7 +113,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../body/ch2.html"><strong>统计学习基础</strong></a></li><li class="breadcrumb-item"><a href="../body/ch3.html"><span class="chapter-title">第3章 线性回归</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../body/ch2.html"><strong>统计学习基础</strong></a></li><li class="breadcrumb-item"><a href="../body/ch5.html"><span class="chapter-title">第5章 重抽样方法 (Resampling Methods)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -172,7 +171,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../body/ch3.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">第3章 线性回归</span></a>
+  <a href="../body/ch3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第3章 线性回归</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -182,7 +181,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../body/ch5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第5章 重抽样方法 (Resampling Methods)</span></a>
+  <a href="../body/ch5.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">第5章 重抽样方法 (Resampling Methods)</span></a>
   </div>
 </li>
       </ul>
@@ -197,35 +196,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#线性回归简介" id="toc-线性回归简介" class="nav-link active" data-scroll-target="#线性回归简介">1. 线性回归简介</a></li>
-  <li><a href="#简单线性回归" id="toc-简单线性回归" class="nav-link" data-scroll-target="#简单线性回归">2. 简单线性回归</a>
-  <ul class="collapse">
-  <li><a href="#模型" id="toc-模型" class="nav-link" data-scroll-target="#模型">模型</a></li>
-  <li><a href="#系数估计" id="toc-系数估计" class="nav-link" data-scroll-target="#系数估计">系数估计</a></li>
-  <li><a href="#评估系数的准确性" id="toc-评估系数的准确性" class="nav-link" data-scroll-target="#评估系数的准确性">评估系数的准确性</a></li>
-  <li><a href="#评估模型的准确性" id="toc-评估模型的准确性" class="nav-link" data-scroll-target="#评估模型的准确性">评估模型的准确性</a></li>
-  </ul></li>
-  <li><a href="#多元线性回归" id="toc-多元线性回归" class="nav-link" data-scroll-target="#多元线性回归">3. 多元线性回归</a>
-  <ul class="collapse">
-  <li><a href="#模型-1" id="toc-模型-1" class="nav-link" data-scroll-target="#模型-1">模型</a></li>
-  <li><a href="#核心问题" id="toc-核心问题" class="nav-link" data-scroll-target="#核心问题">核心问题</a></li>
-  </ul></li>
-  <li><a href="#回归模型的其他注意事项" id="toc-回归模型的其他注意事项" class="nav-link" data-scroll-target="#回归模型的其他注意事项">4. 回归模型的其他注意事项</a>
-  <ul class="collapse">
-  <li><a href="#定性预测变量" id="toc-定性预测变量" class="nav-link" data-scroll-target="#定性预测变量">定性预测变量</a></li>
-  <li><a href="#线性模型的扩展" id="toc-线性模型的扩展" class="nav-link" data-scroll-target="#线性模型的扩展">线性模型的扩展</a></li>
-  <li><a href="#潜在问题" id="toc-潜在问题" class="nav-link" data-scroll-target="#潜在问题">潜在问题</a></li>
-  </ul></li>
-  <li><a href="#线性回归与-k-最近邻-knn-的比较" id="toc-线性回归与-k-最近邻-knn-的比较" class="nav-link" data-scroll-target="#线性回归与-k-最近邻-knn-的比较">5. 线性回归与 K-最近邻 (KNN) 的比较</a></li>
+  <li><a href="#第一部分交叉验证-cross-validation" id="toc-第一部分交叉验证-cross-validation" class="nav-link active" data-scroll-target="#第一部分交叉验证-cross-validation"><strong>第一部分：交叉验证 (Cross-Validation)</strong></a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../body/ch2.html"><strong>统计学习基础</strong></a></li><li class="breadcrumb-item"><a href="../body/ch3.html"><span class="chapter-title">第3章 线性回归</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../body/ch2.html"><strong>统计学习基础</strong></a></li><li class="breadcrumb-item"><a href="../body/ch5.html"><span class="chapter-title">第5章 重抽样方法 (Resampling Methods)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">第3章 线性回归</span></h1>
+<h1 class="title"><span class="chapter-title">第5章 重抽样方法 (Resampling Methods)</span></h1>
 </div>
 
 
@@ -242,167 +222,86 @@ window.Quarto = {
 </header>
 
 
-<section id="线性回归简介" class="level2">
-<h2 class="anchored" data-anchor-id="线性回归简介">1. 线性回归简介</h2>
-<p>线性回归是一种用于预测<strong>定量响应变量</strong>的监督学习方法。它历史悠久、应用广泛，并且是理解许多高级统计学习方法的基础。</p>
-<p>本章旨在回答以下核心问题： * 广告投入与产品销量之间是否存在关系？ * 这种关系的强度如何？ * 哪些广告媒体（如电视、广播、报纸）对销量有显著影响？ * 如何准确预测未来的销量？ * 预测变量与响应变量之间的关系是线性的吗？ * 不同广告媒体之间是否存在<strong>协同效应</strong>（即交互作用）？</p>
+<p>本章介绍了重抽样方法，这在现代统计学中是不可或缺的工具。核心思想是从训练数据集中重复抽取样本，并在每个样本上重新拟合模型，从而获取关于拟合模型的额外信息。尽管这些方法的计算成本可能很高，但现代计算能力的进步使其变得可行。本章重点讨论了两种最常用和最重要的方法：<strong>交叉验证 (Cross-Validation)</strong> 和 <strong>自助法 (Bootstrap)</strong>。</p>
 <hr>
-</section>
-<section id="简单线性回归" class="level2">
-<h2 class="anchored" data-anchor-id="简单线性回归">2. 简单线性回归</h2>
-<p>简单线性回归使用<strong>单个预测变量 X</strong> 来预测<strong>定量响应变量 Y</strong>。</p>
-<section id="模型" class="level3">
-<h3 class="anchored" data-anchor-id="模型">模型</h3>
-<p>其数学模型假设 X 和 Y 之间存在近似的线性关系： <span class="math display">\[ Y \approx \beta_0 + \beta_1 X \]</span> - <strong><span class="math inline">\(\beta_0\)</span></strong>：截距 (intercept) - <strong><span class="math inline">\(\beta_1\)</span></strong>：斜率 (slope) - <span class="math inline">\(\beta_0\)</span> 和 <span class="math inline">\(\beta_1\)</span> 统称为<strong>模型系数</strong> (model coefficients) 或<strong>参数</strong> (parameters)。</p>
-</section>
-<section id="系数估计" class="level3">
-<h3 class="anchored" data-anchor-id="系数估计">系数估计</h3>
-<p>最常用的估计方法是<strong>最小二乘法 (least squares)</strong>。该方法旨在最小化<strong>残差平方和 (Residual Sum of Squares, RSS)</strong>。 <span class="math display">\[ RSS = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 = \sum_{i=1}^{n} (y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2 \]</span> 通过微积分可以求得使 RSS 最小化的估计值： <span class="math display">\[ \hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2} \]</span> <span class="math display">\[ \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \]</span></p>
-</section>
-<section id="评估系数的准确性" class="level3">
-<h3 class="anchored" data-anchor-id="评估系数的准确性">评估系数的准确性</h3>
+<section id="第一部分交叉验证-cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="第一部分交叉验证-cross-validation"><strong>第一部分：交叉验证 (Cross-Validation)</strong></h3>
+<p>交叉验证可用于估计给定统计学习方法的测试误差，从而评估其性能（模型评估）或选择合适的模型灵活性（模型选择）。其主要目的是在没有专门的测试集的情况下，利用训练数据来估计测试误差率。</p>
+<section id="验证集方法-the-validation-set-approach" class="level4">
+<h4 class="anchored" data-anchor-id="验证集方法-the-validation-set-approach"><strong>1. 验证集方法 (The Validation Set Approach)</strong></h4>
+<p>这是最简单的交叉验证策略。</p>
 <ul>
-<li><strong>标准误 (Standard Error, SE)</strong>：衡量系数估计值 <span class="math inline">\(\hat{\beta}\)</span> 的不确定性。SE 越小，估计越准确。</li>
-<li><strong>置信区间 (Confidence Intervals)</strong>：提供一个参数真实值的可能范围。例如，一个95%的置信区间意味着该区间有95%的概率包含参数的真实值。</li>
-<li><strong>假设检验 (Hypothesis Testing)</strong>：
+<li><strong>工作原理</strong>:
 <ul>
-<li><strong>原假设 <span class="math inline">\(H_0\)</span></strong>：X 和 Y 之间没有关系，即 <span class="math inline">\(\beta_1 = 0\)</span>。</li>
-<li><strong>备择假设 <span class="math inline">\(H_a\)</span></strong>：X 和 Y 之间存在关系，即 <span class="math inline">\(\beta_1 \neq 0\)</span>。</li>
-<li><strong>t-统计量</strong>：衡量 <span class="math inline">\(\hat{\beta}_1\)</span> 偏离0的标准差倍数。<span class="math inline">\(t = (\hat{\beta}_1 - 0) / SE(\hat{\beta}_1)\)</span>。</li>
-<li><strong>p-值</strong>：在 <span class="math inline">\(H_0\)</span> 为真的情况下，观测到当前或更极端结果的概率。p值越小，拒绝 <span class="math inline">\(H_0\)</span> 的证据越强。</li>
+<li>将可用的观测数据随机分成两部分：一个<strong>训练集 (training set)</strong> 和一个<strong>验证集 (validation set)</strong> 或称<strong>保留集 (hold-out set)</strong>。</li>
+<li>在训练集上拟合模型。</li>
+<li>使用拟合好的模型对验证集中的观测数据进行预测。</li>
+<li>计算验证集上的误差（例如，对于定量响应，使用均方误差 MSE），以此作为对测试误差率的估计。</li>
+</ul></li>
+<li><strong>缺点</strong>:
+<ol type="1">
+<li><strong>高可变性</strong>: 测试误差的估计值可能非常不稳定，这取决于哪些观测值被分到训练集，哪些被分到验证集。多次重复随机分割会得到不同的测试误差估计值。</li>
+<li><strong>高估测试误差</strong>: 模型仅在训练集（通常是原始数据的一部分，例如一半）上进行训练。由于统计方法在较少的数据上训练时性能较差，这可能导致验证集误差率高估了在整个数据集上拟合的模型的测试误差率。</li>
+</ol></li>
+</ul>
+</section>
+<section id="留一法交叉验证-leave-one-out-cross-validation-loocv" class="level4">
+<h4 class="anchored" data-anchor-id="留一法交叉验证-leave-one-out-cross-validation-loocv"><strong>2. 留一法交叉验证 (Leave-One-Out Cross-Validation, LOOCV)</strong></h4>
+<p>LOOCV 旨在解决验证集方法的缺点。</p>
+<ul>
+<li><strong>工作原理</strong>:
+<ul>
+<li>将数据集分成两部分，但不是大小相当的子集，而是将单个观测值 <span class="math inline">\((x_1, y_1)\)</span> 作为验证集，其余的 <span class="math inline">\(n-1\)</span> 个观测值作为训练集。</li>
+<li>在 <span class="math inline">\(n-1\)</span> 个训练观测值上拟合模型，并对被排除的观测值 <span class="math inline">\(x_1\)</span> 做出预测 <span class="math inline">\(\hat{y}_1\)</span>。</li>
+<li>计算其均方误差 <span class="math inline">\(MSE_1 = (y_1 - \hat{y}_1)^2\)</span>。</li>
+<li>对数据集中的每个观测值（共 <span class="math inline">\(n\)</span> 次）重复此过程，每次都将不同的单个观测值作为验证集。</li>
+<li>最终的LOOCV测试MSE估计值是这 <span class="math inline">\(n\)</span> 个MSE的平均值： <span class="math display">\[CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n}MSE_i\]</span></li>
+</ul></li>
+<li><strong>优点</strong>:
+<ul>
+<li><strong>偏差小</strong>: 由于每次训练集都包含 <span class="math inline">\(n-1\)</span> 个观测值（几乎是整个数据集），LOOCV 对测试误差率的估计偏差远小于验证集方法。</li>
+<li><strong>无随机性</strong>: 多次执行LOOCV总会得到相同的结果，因为训练/验证集的划分没有随机性。</li>
+</ul></li>
+<li><strong>缺点</strong>:
+<ul>
+<li><strong>计算成本高</strong>: 需要拟合模型 <span class="math inline">\(n\)</span> 次，如果 <span class="math inline">\(n\)</span> 很大或模型拟合很慢，这可能会非常耗时。(对于最小二乘线性回归或多项式回归，有一个快捷计算公式可以降低成本。)</li>
 </ul></li>
 </ul>
 </section>
-<section id="评估模型的准确性" class="level3">
-<h3 class="anchored" data-anchor-id="评估模型的准确性">评估模型的准确性</h3>
+<section id="k折交叉验证-k-fold-cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="k折交叉验证-k-fold-cross-validation"><strong>3. k折交叉验证 (k-Fold Cross-Validation)</strong></h4>
+<p>k折交叉验证是LOOCV的一种替代方案，也是实践中最常用的方法。</p>
 <ul>
-<li><strong>残差标准误 (Residual Standard Error, RSE)</strong>：衡量模型对数据拟合的<strong>缺失程度</strong>，代表响应值偏离真实回归线的平均距离。</li>
-<li><strong>R² 统计量</strong>：衡量响应变量 Y 的总变异中，能够被预测变量 X 解释的<strong>比例</strong>。其值介于0和1之间，越接近1表示模型解释能力越强。在简单线性回归中，<span class="math inline">\(R^2 = r^2\)</span> (相关系数的平方)。</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="多元线性回归" class="level2">
-<h2 class="anchored" data-anchor-id="多元线性回归">3. 多元线性回归</h2>
-<p>多元线性回归使用<strong>多个预测变量</strong> (<span class="math inline">\(X_1, X_2, \dots, X_p\)</span>) 来预测 Y。</p>
-<section id="模型-1" class="level3">
-<h3 class="anchored" data-anchor-id="模型-1">模型</h3>
-<p><span class="math display">\[ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p + \epsilon \]</span> - <span class="math inline">\(\beta_j\)</span> 的解释是：在<strong>保持其他所有预测变量不变</strong>的情况下，<span class="math inline">\(X_j\)</span> 每增加一个单位，Y 的平均变化量。</p>
-</section>
-<section id="核心问题" class="level3">
-<h3 class="anchored" data-anchor-id="核心问题">核心问题</h3>
-<ol type="1">
-<li><strong>是否存在关系？</strong>
+<li><strong>工作原理</strong>:
 <ul>
-<li>使用 <strong>F-统计量</strong> 来检验<strong>所有</strong>预测变量的系数是否同时为零 (<span class="math inline">\(H_0: \beta_1 = \beta_2 = \dots = \beta_p = 0\)</span>)。F-统计量远大于1且对应的p值很小，则表明至少有一个预测变量与响应相关。</li>
+<li>将观测数据集随机分成 <span class="math inline">\(k\)</span> 个大小近似相等的组，或称<strong>折 (folds)</strong>。</li>
+<li>将第一折作为验证集，在其余的 <span class="math inline">\(k-1\)</span> 折上拟合模型。</li>
+<li>计算在验证集上的均方误差 <span class="math inline">\(MSE_1\)</span>。</li>
+<li>重复此过程 <span class="math inline">\(k\)</span> 次，每次都使用不同的一折作为验证集。</li>
+<li>k折CV的估计值是这 <span class="math inline">\(k\)</span> 个MSE值的平均值： <span class="math display">\[CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k}MSE_i\]</span></li>
 </ul></li>
-<li><strong>哪些变量是重要的？(变量选择)</strong>
+<li><strong>特点</strong>:
 <ul>
-<li>由于检查所有 <span class="math inline">\(2^p\)</span> 个可能的模型不现实，通常采用自动化方法：
-<ul>
-<li><strong>前向选择 (Forward selection)</strong>：从空模型开始，逐个添加最显著的变量。</li>
-<li><strong>后向选择 (Backward selection)</strong>：从包含所有变量的模型开始，逐个移除最不显著的变量。</li>
-<li><strong>混合选择 (Mixed selection)</strong>：结合以上两种方法。</li>
+<li>LOOCV是k折CV的一个特例，其中 <span class="math inline">\(k=n\)</span>。</li>
+<li>在实践中，通常使用 <span class="math inline">\(k=5\)</span> 或 <span class="math inline">\(k=10\)</span>。</li>
+<li><strong>计算优势</strong>: 相比需要拟合 <span class="math inline">\(n\)</span> 次的LOOCV，k折CV只需要拟合 <span class="math inline">\(k\)</span> 次，计算上更可行。</li>
+<li>其可变性通常远低于验证集方法。</li>
 </ul></li>
-</ul></li>
-<li><strong>模型拟合得如何？</strong>
-<ul>
-<li>同样使用 RSE 和 R²。但需注意，向模型中添加变量<strong>总会</strong>使训练集上的 R² 增加，即使该变量与响应无关。</li>
-</ul></li>
-<li><strong>预测的准确性</strong>
-<ul>
-<li><strong>置信区间</strong>：用于量化<strong>平均响应</strong>的不确定性。</li>
-<li><strong>预测区间</strong>：用于量化<strong>单个响应</strong>的不确定性。预测区间总是比置信区间宽，因为它包含了不可约误差 <span class="math inline">\(\epsilon\)</span>。</li>
-</ul></li>
-</ol>
-<hr>
-</section>
-</section>
-<section id="回归模型的其他注意事项" class="level2">
-<h2 class="anchored" data-anchor-id="回归模型的其他注意事项">4. 回归模型的其他注意事项</h2>
-<section id="定性预测变量" class="level3">
-<h3 class="anchored" data-anchor-id="定性预测变量">定性预测变量</h3>
-<ul>
-<li>对于只有两个水平的定性变量，可以创建一个 <strong>(0, 1) 虚拟变量 (dummy variable)</strong>。</li>
-<li>对于超过两个水平的定性变量，需要创建 <strong>k-1 个</strong>虚拟变量，其中 k 是水平的数量。未分配虚拟变量的水平称为<strong>基线 (baseline)</strong>。</li>
 </ul>
 </section>
-<section id="线性模型的扩展" class="level3">
-<h3 class="anchored" data-anchor-id="线性模型的扩展">线性模型的扩展</h3>
-<ol type="1">
-<li><strong>交互作用 (Interaction Terms)</strong>
+<section id="k折交叉验证的偏差-方差权衡" class="level4">
+<h4 class="anchored" data-anchor-id="k折交叉验证的偏差-方差权衡"><strong>4. k折交叉验证的偏差-方差权衡</strong></h4>
+<p>选择 <span class="math inline">\(k\)</span> 的值涉及到偏差和方差之间的权衡。</p>
 <ul>
-<li>放宽<strong>可加性假设</strong> (即预测变量的影响是独立的)。</li>
-<li>通过在模型中添加两个预测变量的乘积项 (<span class="math inline">\(X_1 \times X_2\)</span>) 来实现。</li>
-<li>一个显著的交互项表明，一个预测变量对响应的影响依赖于另一个预测变量的水平。这在市场营销中被称为<strong>协同效应 (synergy effect)</strong>。</li>
-</ul></li>
-<li><strong>非线性关系 (Polynomial Regression)</strong>
+<li><strong>偏差</strong>:
 <ul>
-<li>放宽<strong>线性假设</strong>。</li>
-<li>通过在模型中添加预测变量的多项式项 (如 <span class="math inline">\(X^2, X^3\)</span>) 来拟合曲线关系。</li>
-<li>这本质上仍然是一个线性模型，因为它对变换后的变量是线性的。</li>
+<li>LOOCV的训练集大小为 <span class="math inline">\(n-1\)</span>，几乎与整个数据集一样大，因此其对测试误差的估计是<strong>近似无偏的</strong>。</li>
+<li>k折CV的训练集大小为 <span class="math inline">\((k-1)n/k\)</span>，</li>
 </ul></li>
-</ol>
-</section>
-<section id="潜在问题" class="level3">
-<h3 class="anchored" data-anchor-id="潜在问题">潜在问题</h3>
-<ol type="1">
-<li><strong>非线性</strong>：通过<strong>残差图</strong> (residuals vs.&nbsp;fitted values) 发现。若残差图呈现明显模式 (如U形)，则表明存在非线性。</li>
-<li><strong>误差项相关</strong>：常见于时间序列数据。这会导致标准误被低估，使得置信区间过窄，p值过小。</li>
-<li><strong>异方差性 (Heteroscedasticity)</strong>：误差项方差非恒定。在残差图中表现为<strong>漏斗形状</strong>。可通过对响应变量进行变换 (如 <code>log(Y)</code>) 来解决。</li>
-<li><strong>异常值 (Outliers)</strong>：响应值 <span class="math inline">\(y_i\)</span> 远离模型预测值的点。</li>
-<li><strong>高杠杆点 (High-Leverage Points)</strong>：预测值 <span class="math inline">\(x_i\)</span> 不寻常的点。这些点对回归线有很大影响。</li>
-<li><strong>共线性 (Collinearity)</strong>：两个或多个预测变量高度相关。
-<ul>
-<li>这会使系数估计变得不稳定，标准误增大。</li>
-<li>可通过<strong>方差膨胀因子 (Variance Inflation Factor, VIF)</strong> 检测。VIF &gt; 5 或 10 表明存在问题。</li>
-<li>解决方法：移除一个相关变量或将它们组合成一个新变量。</li>
-</ul></li>
-</ol>
-<hr>
-</section>
-</section>
-<section id="线性回归与-k-最近邻-knn-的比较" class="level2">
-<h2 class="anchored" data-anchor-id="线性回归与-k-最近邻-knn-的比较">5. 线性回归与 K-最近邻 (KNN) 的比较</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 9%">
-<col style="width: 42%">
-<col style="width: 47%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">特性</th>
-<th style="text-align: left;">线性回归</th>
-<th style="text-align: left;">K-最近邻 (KNN)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>方法类型</strong></td>
-<td style="text-align: left;"><strong>参数化 (Parametric)</strong>：对函数形式 (线性) 做出假设。</td>
-<td style="text-align: left;"><strong>非参数化 (Non-parametric)</strong>：不对函数形式做假设，更灵活。</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>适用场景</strong></td>
-<td style="text-align: left;">当真实关系接近线性时，表现优异。</td>
-<td style="text-align: left;">当真实关系为非线性时，可能表现更好。</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>可解释性</strong></td>
-<td style="text-align: left;">高。模型由几个系数定义，易于理解。</td>
-<td style="text-align: left;">低。没有简单的模型或系数可供解释。</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>维度影响</strong></td>
-<td style="text-align: left;">在高维情况下表现相对稳健。</td>
-<td style="text-align: left;">在高维情况下性能急剧下降 (即<strong>维度灾难</strong>)。</td>
-</tr>
-</tbody>
-</table>
-<p><strong>结论</strong>： - 如果预测准确性是首要目标，且真实关系可能是非线性的，KNN值得考虑。 - 如果可解释性很重要，或者预测变量维度很高而样本量不大，线性回归通常是更好的选择。</p>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -813,14 +712,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../body/ch2.html" class="pagination-link" aria-label="第 2 章 统计学习">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">第 2 章 统计学习</span></span>
+      <a href="../body/ch4.html" class="pagination-link" aria-label="第4章 分类 (Classification)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">第4章 分类 (Classification)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../body/ch4.html" class="pagination-link" aria-label="第4章 分类 (Classification)">
-        <span class="nav-page-text"><span class="chapter-title">第4章 分类 (Classification)</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
