@@ -1,1 +1,1 @@
-Sitemap: https://your-username.github.io/your-book-name/sitemap.xml
+Sitemap: https://BlueDayDreeaming.github.io/my_quarto_template/sitemap.xml

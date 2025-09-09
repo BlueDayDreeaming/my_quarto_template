@@ -12,15 +12,15 @@ book:
   sidebar:    # 侧边栏配置
     title: "统计学习笔记"
     logo: images/book-logo.png
-    logo-href: https://your-username.github.io/your-book-name/  # 修改为你的网址
+    logo-href: https://BlueDayDreeaming.github.io/my_quarto_template/
     style: floating
     search: true
     tools:
       - icon: github
-        href: https://github.com/your-username/your-book-name  # 修改为你的仓库地址
+        href: https://github.com/BlueDayDreeaming/my_quarto_template
 
   favicon: images/book-logo.png
-  site-url: https://your-username.github.io/your-book-name/  # 修改为你的网址
+  site-url: https://BlueDayDreeaming.github.io/my_quarto_template/
   editor: source
 
 #----------------------- Chapters ---------------
